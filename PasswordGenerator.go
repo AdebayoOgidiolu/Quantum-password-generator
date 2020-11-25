@@ -12,30 +12,35 @@ import (
 	"github.com/bitfield/qrand"
 )
 
+type ΨSource struct{}
+
+func (s *ΨSource) Seed(seed int64) {}
+
+func (s *ΨSource) Uint64() (value uint64) {
+	binary.Read(qrand.Reader, binary.BigEndian, &value)
+	return value
+}
+
+func (s *ΨSource) Int63() (value int64) {
+	return int64(s.Uint64() & ^uint64(1<<63))
+}
+
 func main() {
-
-	type ΨSource struct{}
-
-	func (s *ΨSource) Seed(seed int64) {}
-
-	func (s *ΨSource) Uint64() (value uint64) {
-		binary.Read(qrand.Reader, binary.BigEndian, &value)
-		return value
-	}
-
-	func (s *ΨSource) Int63() (value int64) {
-		return int64(s.Uint64() & ^uint64(1<<63))
-	}
 
 	var random = rand.New(&ΨSource{})
 
+	var nchars int
+
 	if len(os.Args) < 2{
-		fmt.Println("Usage : PasswordGenerator.go <no. of characters>")
-		return fmt.Errorf("Password length not specified")
+		err := fmt.Errorf("Password length is %d or not specified", nchars)
+		fmt.Println(err.Error())
+		fmt.Println("Usage : PasswordGenerator.go <no. of characters>")	
 	}
+
 	nchars, err := strconv.Atoi(os.Args[1])
 	if err != nil {
-		fmt.Errorf("Argument (%s) processing failed\n", os.Args[1])
+		err := fmt.Errorf("Argument (%s) processing failed\n", os.Args[1])
+		fmt.Println(err.Error())
 
 	charSet := []byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
 
