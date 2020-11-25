@@ -48,9 +48,7 @@ func main() {
 		index := random.Intn(len(charPool))
 		passwd = append(passwd, charPool[index])
 	}
-
 	fmt.Println(string(passwd))
-
 }
 
 func CheckArg() int {
@@ -63,12 +61,11 @@ func CheckArg() int {
 		}
 		conv = strings.Trim(conv, "\r\n")
 		output, err := strconv.Atoi(conv)
-
 		if err != nil {
 			fmt.Errorf("%s\n", err.Error())
 		}
 		return output
-
+		
 	} else {
 		output, err := strconv.Atoi(os.Args[1])
 		if err != nil {
