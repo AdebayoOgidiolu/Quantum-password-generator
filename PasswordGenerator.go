@@ -9,7 +9,7 @@ import (
 	"strings"
 	"encoding/binary"
 
-	"github.com/AdebayoOgidiolu/Quantum-password-generator/qrand"
+	"github.com/bitfield/qrand"
 )
 
 func main() {
@@ -29,49 +29,28 @@ func main() {
 
 	var random = rand.New(&ΨSource{})
 
-	nchars := CheckArg()
-
-	charSet := [][]byte{
-		{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'},
-		{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'},
-		{1, 2, 3, 4, 5, 6, 7, 8, 9},
-		{'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '{', '}', '[', ']', '?'},
+	if len(os.Args) < 2{
+		fmt.Println("Usage : PasswordGenerator.go <no. of characters>")
+		return fmt.Errorf("Password length not specified")
 	}
+	nchars, err := strconv.Atoi(os.Args[1])
+	if err != nil {
+		fmt.Errorf("Argument (%s) processing failed\n", os.Args[1])
 
-	charPool := []byte{}
-	for _, item := range charSet {
-		charPool = append(charPool, item...)
-	}
+	charSet := []byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
 
 	var passwd []byte
 	for i := 0; i < nchars; i++ {
-		index := random.Intn(len(charPool))
-		passwd = append(passwd, charPool[index])
+		index := random.Intn(len(charSet))
+		passwd = append(passwd, charSet[index])
 	}
 	fmt.Println(string(passwd))
 }
 
-func CheckArg() int {
-	if len(os.Args) < 2 {
-		fmt.Print("Please specify the number of password characters you want : ")
-		charRdr := bufio.NewReader(os.Stdin)
-		conv, err := charRdr.ReadString('\n')
-		if err != nil {
-			fmt.Errorf("Argument (%s) processing failed", conv)
-		}
-		conv = strings.Trim(conv, "\r\n")
-		output, err := strconv.Atoi(conv)
-		if err != nil {
-			fmt.Errorf("%s\n", err.Error())
-		}
-		return output
-		
-	} else {
-		output, err := strconv.Atoi(os.Args[1])
-		if err != nil {
-			fmt.Errorf("Argument (%s) processing failed\n", os.Args[1])
-		}
-		return output
-	}
 
-}
+	
+
+		
+
+
+
