@@ -1,13 +1,11 @@
 package main
 
 import (
-	"bufio"
+	"encoding/binary"
 	"fmt"
 	"math/rand"
 	"os"
 	"strconv"
-	"strings"
-	"encoding/binary"
 
 	"github.com/bitfield/qrand"
 )
@@ -31,17 +29,18 @@ func main() {
 
 	var nchars int
 
-	if len(os.Args) < 2{
+	if len(os.Args) < 2 {
 		err := fmt.Errorf("Password length is %d or not specified", nchars)
 		fmt.Println(err.Error())
-		fmt.Println("Usage : PasswordGenerator.go <no. of characters>")	
+		fmt.Println("Usage : PasswordGenerator.go <no. of characters>")
+		os.Exit(1)
 	}
 
 	nchars, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		err := fmt.Errorf("Argument (%s) processing failed\n", os.Args[1])
 		fmt.Println(err.Error())
-
+	}
 	charSet := []byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
 
 	var passwd []byte
@@ -51,11 +50,3 @@ func main() {
 	}
 	fmt.Println(string(passwd))
 }
-
-
-	
-
-		
-
-
-
