@@ -7,23 +7,26 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"github.com/AdebayoOgidiolu/Quantum-password-generator/qrand"
 	"encoding/binary"
+
+	"github.com/AdebayoOgidiolu/Quantum-password-generator/qrand"
 )
 
 func main() {
 
 	type ΨSource struct{}
-	
-	func (s *ΨSource) Seed(seed int64) {}func (s *ΨSource) Uint64() (value uint64) {
+
+	func (s *ΨSource) Seed(seed int64) {}
+
+	func (s *ΨSource) Uint64() (value uint64) {
 		binary.Read(qrand.Reader, binary.BigEndian, &value)
 		return value
 	}
-	
+
 	func (s *ΨSource) Int63() (value int64) {
 		return int64(s.Uint64() & ^uint64(1<<63))
 	}
-	
+
 	var random = rand.New(&ΨSource{})
 
 	nchars := CheckArg()
@@ -56,20 +59,20 @@ func CheckArg() int {
 		charRdr := bufio.NewReader(os.Stdin)
 		conv, err := charRdr.ReadString('\n')
 		if err != nil {
-			fmt.Println("Argument processing failed")
+			fmt.Errorf("Argument (%s) processing failed", conv)
 		}
 		conv = strings.Trim(conv, "\r\n")
 		output, err := strconv.Atoi(conv)
 
 		if err != nil {
-			fmt.Printf("%s\n", err.Error())
+			fmt.Errorf("%s\n", err.Error())
 		}
 		return output
 
 	} else {
 		output, err := strconv.Atoi(os.Args[1])
 		if err != nil {
-			fmt.Printf("Argument (%s) processing failed\n", os.Args[1])
+			fmt.Errorf("Argument (%s) processing failed\n", os.Args[1])
 		}
 		return output
 	}
