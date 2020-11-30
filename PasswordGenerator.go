@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/binary"
 	"fmt"
 	"math/rand"
 	"os"
@@ -10,22 +9,9 @@ import (
 	"github.com/bitfield/qrand"
 )
 
-type ΨSource struct{}
-
-func (s *ΨSource) Seed(seed int64) {}
-
-func (s *ΨSource) Uint64() (value uint64) {
-	binary.Read(qrand.Reader, binary.BigEndian, &value)
-	return value
-}
-
-func (s *ΨSource) Int63() (value int64) {
-	return int64(s.Uint64() & ^uint64(1<<63))
-}
-
 func main() {
 
-	var random = rand.New(&ΨSource{})
+	var random = rand.New(&qrand.Source{})
 
 	var nchars int
 
