@@ -1,4 +1,4 @@
-module Quantum-password-generator
+module qpass
 
 go 1.15
 
