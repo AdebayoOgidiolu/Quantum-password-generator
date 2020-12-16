@@ -1,4 +1,6 @@
 github.com/bitfield/qrand v0.1.0 h1:NhiO5EBJg9JYG6kwR36SeLbIt2XHPUTp4uPEsnNKK8Q=
 github.com/bitfield/qrand v0.1.0/go.mod h1:D3AK1+Wqay/g3Z0tBM5OiO2YjR5MK2XYgDkmx8eec2w=
+github.com/bitfield/qrand v0.2.0 h1:9iD6HezghVYAXwHOVVocD9+4qw54fRaEXvjj/s+vVgM=
+github.com/bitfield/qrand v0.2.0/go.mod h1:D3AK1+Wqay/g3Z0tBM5OiO2YjR5MK2XYgDkmx8eec2w=
 github.com/google/go-cmp v0.3.1 h1:Xye71clBPdm5HgqGwUkwhbynsUJZhDbS20FvLhQ2izg=
 github.com/google/go-cmp v0.3.1/go.mod h1:8QqcDgzrUqlUb/G2PQTWiueGozuR1884gddMywk6iLU=
