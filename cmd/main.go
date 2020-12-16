@@ -8,10 +8,6 @@ import (
 )
 
 func main() {
-	// TODO: future feature! Customisability!
-	// p := qpass.NewPasswordGenerator()
-	// p.Charset = qpass.TypeableCharacters
-	// p.NewPassword(length)
 	if len(os.Args) != 2 {
 		fmt.Printf("Usage: %s <number of characters>\n", os.Args[0])
 		os.Exit(1)
