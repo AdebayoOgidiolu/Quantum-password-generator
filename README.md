@@ -7,14 +7,12 @@ Todos:
 1. Use typeable character set
 1. Be able to specify different charsets ("All Unicode" or "Typeable")
 
-Simple default case:
+Simpler:
 ```go
-password := qpass.NewPassword(length)
-```
-
-Power user case, with configuration:
-```go
-p := qpass.NewPasswordGenerator()
-p.Charset = qpass.TypeableCharacters
-p.NewPassword(length)
+// Base case
+p := qpass.NewPassword(10)
+...
+// Power user case
+g := qpass.NewPasswordGenerator(qpass.TypeableCharacters)
+p := g.NewPassword(length)
 ```

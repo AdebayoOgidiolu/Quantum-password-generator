@@ -3,15 +3,28 @@ package qpass
 import (
 	"math/rand"
 	"strings"
-	"time"
+
+	"github.com/bitfield/qrand"
 )
 
-var random = rand.New(rand.NewSource(time.Now().UnixNano()))
-
 func NewPassword(length int) string {
+	return NewGenerator().NewPassword(length)
+}
+
+type generator struct{
+	Rand *rand.Rand
+}
+
+func NewGenerator() generator {
+	return generator{
+		Rand: rand.New(qrand.NewSource()),
+	}
+}
+
+func (g generator) NewPassword(length int) string {
 	var s strings.Builder
 	for i := 0; i < length; i++ {
-		s.WriteRune('a' + rune(random.Intn(26)))
+		s.WriteRune('a' + rune(g.Rand.Intn(26)))
 	}
 	return s.String()
 }
