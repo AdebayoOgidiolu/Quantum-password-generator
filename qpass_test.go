@@ -23,3 +23,9 @@ func TestNewPassword(t *testing.T) {
 		t.Errorf("want at least %d different letters in password: %q", min, password)
 	}
 }
+
+func BenchmarkNewPassword(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = qpass.NewPassword(10)
+	}
+}

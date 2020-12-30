@@ -2,16 +2,16 @@ package qpass
 
 import (
 	"math/rand"
+	"strings"
 	"time"
 )
 
 var random = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func NewPassword(length int) string {
-	var password []rune
+	var s strings.Builder
 	for i := 0; i < length; i++ {
-		offset := random.Intn(26)
-		password = append(password, rune('a' + offset))
+		s.WriteRune('a' + rune(random.Intn(26)))
 	}
-	return string(password)
+	return s.String()
 }
