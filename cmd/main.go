@@ -8,20 +8,25 @@ import (
 	"strconv"
 )
 
+var usage = fmt.Sprintf("Usage: %s [-u] <number of characters>\n\n-u Use all Unicode characters, not just typeable characters.\n", os.Args[0])
+
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Printf("Usage: %s <number of characters>\n", os.Args[0])
+	unicode := flag.Bool("u", false, "Use all Unicode characters")
+	flag.Parse()
+	args := flag.Args()
+	if len(args) < 1 {
+		fmt.Fprintf(os.Stderr, usage)
 		os.Exit(1)
 	}
-	length, err := strconv.Atoi(os.Args[1])
+	length, err := strconv.Atoi(args[0])
 	if err != nil {
-		err := fmt.Errorf("Argument (%s) processing failed\n", os.Args[1])
-		fmt.Println(err.Error())
+		fmt.Fprintf(os.Stderr, usage)
+		os.Exit(1)
 	}
-	var characterSet string
-	flag.StringVar(&characterSet, "characterSet", "unicode", "Password character set")
-	flag.Parse()
-	password := qpass.NewPassword(length, characterSet)
+	g := qpass.NewGenerator()
+	if *unicode {
+		g.CharacterSet = qpass.Unicode
+	}
+	password := g.NewPassword(length)
 	fmt.Println(password)
-
 }
