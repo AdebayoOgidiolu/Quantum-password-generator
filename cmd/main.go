@@ -6,6 +6,8 @@ import (
 	"os"
 	"qpass"
 	"strconv"
+
+	"github.com/atotto/clipboard"
 )
 
 var usage = fmt.Sprintf("Usage: %s [-u] <number of characters>\n\n-u Use all Unicode characters, not just typeable characters.\n", os.Args[0])
@@ -29,6 +31,8 @@ func main() {
 		password = g.NewPassword(length)
 	} else {
 		password = qpass.NewPassword(length)
+		fmt.Println(password)
 	}
-	fmt.Println(password)
+	fmt.Println("(Password copied to clipboard)")
+	clipboard.WriteAll(password)
 }
