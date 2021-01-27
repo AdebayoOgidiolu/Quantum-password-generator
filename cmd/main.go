@@ -23,10 +23,12 @@ func main() {
 		fmt.Fprintf(os.Stderr, usage)
 		os.Exit(1)
 	}
-	g := qpass.NewGenerator()
+	var password string
 	if *unicode {
-		g.CharacterSet = qpass.Unicode
+		g := qpass.NewGenerator(qpass.WithUnicode())
+		password = g.NewPassword(length)
+	} else {
+		password = qpass.NewPassword(length)
 	}
-	password := g.NewPassword(length)
 	fmt.Println(password)
 }

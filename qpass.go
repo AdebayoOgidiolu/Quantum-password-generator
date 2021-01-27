@@ -13,42 +13,45 @@ const (
 	Unicode
 )
 
-var characterSet string
-
-func NewPassword(length int, characterSet string) string {
+func NewPassword(length int) string {
 	return NewGenerator().NewPassword(length)
 }
 
 type generator struct {
 	Rand         *rand.Rand
-	CharacterSet int
+	characterSet int
 }
 
-func NewGenerator() generator {
-	return generator{
-		Rand:         rand.New(qrand.NewSource()),
-		CharacterSet: Typeable,
+type Option func(*generator)
+
+func WithUnicode() Option {
+	return func(g *generator) {
+		g.characterSet = Unicode
 	}
 }
 
-func (g generator) typeableRune() rune {
-	return rune(' ' + g.Rand.Intn(95))
+func NewGenerator(opts ...Option) generator {
+	g := generator{
+		Rand:         rand.New(qrand.NewSource()),
+		characterSet: Typeable,
+	}
+	for _, opt := range opts {
+		opt(&g)
+	}
+	return g
 }
 
-func (g generator) unicodeRune() rune {
+func (g generator) Rune() rune {
+	if g.characterSet == Typeable {
+		return rune(' ' + g.Rand.Intn(95))
+	}
 	return rune(g.Rand.Intn(unicode.MaxRune + 1))
 }
 
 func (g generator) NewPassword(length int) string {
 	var s strings.Builder
-	var newRune func() rune
-	if g.CharacterSet == Unicode {
-		newRune = g.unicodeRune
-	} else {
-		newRune = g.typeableRune
-	}
 	for i := 0; i < length; i++ {
-		s.WriteRune(newRune())
+		s.WriteRune(g.Rune())
 	}
 	return s.String()
 }
