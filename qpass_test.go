@@ -8,14 +8,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func TestNewPassword(t *testing.T) {
-	wantLen := 10
-	password := qpass.NewPassword(wantLen)
-	gotLen := len(password)
-	if wantLen != gotLen {
-		t.Errorf("want %d, got %d", wantLen, gotLen)
-	}
-}
 
 func TestNewGenerator(t *testing.T) {
 	g := qpass.NewGenerator(
@@ -40,8 +32,11 @@ func TestUnicodeGenerator(t *testing.T) {
 	}
 }
 
-func BenchmarkNewPassword(b *testing.B) {
+func BenchmarkNewPasswordNonQuantum(b *testing.B) {
+	g := qpass.NewGenerator(
+		qpass.WithRandom(rand.New(rand.NewSource(1))),
+	)
 	for i := 0; i < b.N; i++ {
-		_ = qpass.NewPassword(10)
+		_ = g.NewPassword(10)
 	}
 }
