@@ -5,7 +5,7 @@ Todos:
 
 ✅. Use qrand
 ✅. Configure different randomness sources
-1. Use typeable character set
+✅. Use typeable character set
 1. Be able to specify different charsets ("All Unicode" or "Typeable")
 
 Simpler:

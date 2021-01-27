@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"qpass"
@@ -17,6 +18,10 @@ func main() {
 		err := fmt.Errorf("Argument (%s) processing failed\n", os.Args[1])
 		fmt.Println(err.Error())
 	}
-	password := qpass.NewPassword(length)
+	var characterSet string
+	flag.StringVar(&characterSet, "characterSet", "unicode", "Password character set")
+	flag.Parse()
+	password := qpass.NewPassword(length, characterSet)
 	fmt.Println(password)
+
 }

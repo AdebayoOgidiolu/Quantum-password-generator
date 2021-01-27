@@ -8,24 +8,26 @@ import (
 	"github.com/bitfield/qrand"
 )
 
-const (
+/*const (
 	Typeable = iota
 	Unicode
-)
+)*/
 
-func NewPassword(length int) string {
-	return NewGenerator().NewPassword(length)
+var characterSet string
+
+func NewPassword(length int, characterSet string) string {
+	return NewGenerator().NewPassword(length, characterSet)
 }
 
 type generator struct {
 	Rand         *rand.Rand
-	CharacterSet int
+	CharacterSet string
 }
 
 func NewGenerator() generator {
 	return generator{
 		Rand:         rand.New(qrand.NewSource()),
-		CharacterSet: Typeable,
+		CharacterSet: "",
 	}
 }
 
@@ -37,10 +39,10 @@ func (g generator) unicodeRune() rune {
 	return rune(g.Rand.Intn(unicode.MaxRune + 1))
 }
 
-func (g generator) NewPassword(length int) string {
+func (g generator) NewPassword(length int, characterSet string) string {
 	var s strings.Builder
 	var newRune func() rune
-	if g.CharacterSet == Unicode {
+	if g.CharacterSet == "unicode" {
 		newRune = g.unicodeRune
 	} else {
 		newRune = g.typeableRune
