@@ -30,6 +30,12 @@ func WithUnicode() Option {
 	}
 }
 
+func WithRandom(r *rand.Rand) Option {
+	return func(g *generator) {
+		g.Rand = r
+	}
+}
+
 func NewGenerator(opts ...Option) generator {
 	g := generator{
 		Rand:         rand.New(qrand.NewSource()),
